@@ -52,6 +52,21 @@ public class Plugin {
         return new Process(command);
     }
 
+    @Export
+    public void stopShell() {
+        net.tkbunny.pesh.loader.App.running = false;
+    }
+
+    @Export
+    public InputStreamWrapper getStdIn() {
+        return new InputStreamWrapper(System.in);
+    }
+
+    @Export
+    public OutputStreamWrapper getStdOut() {
+        return new OutputStreamWrapper(System.out);
+    }
+
     Plugin(String code, String name) {
         Builder builder = Context.newBuilder("js");
         builder.allowCreateProcess(true);
