@@ -18,7 +18,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        // TODO: Load all the plugins
-        // TODO: Create an internal plugin for handling keypresses and signals
+        // TODO: Load all the plugins alphabetically
+        // TODO: Create an internal plugin for keypresses and signals
     }
 }
