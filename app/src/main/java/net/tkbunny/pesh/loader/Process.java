@@ -1,14 +1,8 @@
 package net.tkbunny.pesh.loader;
 
-import net.tkbunny.pesh.loader.Hook;
-
-import java.util.ArrayList;
-
 import java.lang.ProcessBuilder;
 
-import org.graalvm.polyglot.*;
 import org.graalvm.polyglot.HostAccess.Export;
-import org.graalvm.polyglot.proxy.*;
 
 public class Process {
     @Export
@@ -27,6 +21,10 @@ public class Process {
         try {
             this.process.getOutputStream().write(string.getBytes());
         } catch(java.io.IOException e) {}
+    }
+
+    public InputStreamWrapper getStdOut(String string) {
+        return new InputStreamWrapper(this.process.getInputStream());
     }
 
     // TODO: Input/Output Stream Wrapper Classes

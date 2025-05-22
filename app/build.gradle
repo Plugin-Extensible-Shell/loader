@@ -40,6 +40,16 @@ application {
     mainClass = 'net.tkbunny.pesh.loader.App'
 }
 
+tasks.run.configure {
+    standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
+
 graalvmNative {
    binaries.main {
       mainClass = 'net.tkbunny.pesh.loader.App'

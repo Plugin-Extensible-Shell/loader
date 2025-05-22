@@ -1,5 +1,7 @@
 package net.tkbunny.pesh.loader;
 
+import org.graalvm.polyglot.Value;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,8 +62,16 @@ public class App {
             System.out.println("\u001b[31mFailed to read plugins: " + e.getMessage() + "\u001b[0m");
         }
 
+        new Plugin("", "internal");
+        Hook typedHook = new Hook("internal", "byte_inputted");
         while (running) {
-            //
+            try {
+                int typed = System.in.read();
+
+                if (typed != -1) {
+                    typedHook.fire(typed);
+                }
+            } catch(IOException ignored) {}
         }
         // TODO: Create an internal plugin for keypresses and signals
     }

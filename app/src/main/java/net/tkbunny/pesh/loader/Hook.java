@@ -25,7 +25,7 @@ public class Hook {
     }
 
     @Export
-    public Value[] fire(Value arg) {
+    public Value[] fire(Object arg) {
         ArrayList<Value> returns = new ArrayList<Value>();
 
         for (int i = 0; i < functions.size(); i++) {

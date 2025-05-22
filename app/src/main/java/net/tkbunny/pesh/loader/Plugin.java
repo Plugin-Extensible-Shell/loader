@@ -58,11 +58,6 @@ public class Plugin {
     }
 
     @Export
-    public InputStreamWrapper getStdIn() {
-        return new InputStreamWrapper(System.in);
-    }
-
-    @Export
     public OutputStreamWrapper getStdOut() {
         return new OutputStreamWrapper(System.out);
     }
