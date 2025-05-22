@@ -25,13 +25,17 @@ public class Hook {
     }
 
     @Export
-    public void fire(Value arg) {
+    public Value[] fire(Value arg) {
+        ArrayList<Value> returns = new ArrayList<Value>();
+
         for (int i = 0; i < functions.size(); i++) {
             try {
-                functions.get(i).execute(arg);
+                returns.add(functions.get(i).execute(arg));
             } catch(Exception e) {
                 System.out.println("\u001b[31mGot exception " + e + " while running hook " + this.group + "." + this.name + "\u001b[0m");
             }
         }
+
+        return returns.toArray(new Value[0]);
     }
 }

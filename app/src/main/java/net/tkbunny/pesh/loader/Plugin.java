@@ -1,6 +1,7 @@
 package net.tkbunny.pesh.loader;
 
 import net.tkbunny.pesh.loader.Hook;
+import net.tkbunny.pesh.loader.Process;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import org.graalvm.polyglot.proxy.*;
 
 public class Plugin {
     private Context context;
+    private static ArrayList<Plugin> plugins = new ArrayList<Plugin>();
     @Export
     public final String name;
     public ArrayList<Hook> hooks;
@@ -23,10 +25,37 @@ public class Plugin {
         return newHook;
     }
 
+    @Export
+    public void hook(String hookName, Value function) {
+        String[] split = hookName.split(".");
+        if (split.length < 2) {
+            throw new RuntimeException("Hook names must be in the format plugin.name");
+        }
+
+        for (int i = 0; i < plugins.size(); i++) {
+            Plugin pluginToTest = plugins.get(i);
+
+            if (pluginToTest.name == split[0]) {
+                for (int j = 0; j < plugins.get(i).hooks.size(); j++) {
+                    Hook hookToTest = plugins.get(i).hooks.get(j);
+
+                    if (hookToTest.name == split[1]) {
+                        hookToTest.hook(function);
+                    }
+                }
+            }
+        }
+    }
+
+    @Export
+    public Process startProcess(String... command) throws java.io.IOException {
+        return new Process(command);
+    }
+
     Plugin(String code, String name) {
         Builder builder = Context.newBuilder("js");
         builder.allowCreateProcess(true);
-        builder.allowCreateThread(false);
+        builder.allowCreateThread(true);
         builder.allowEnvironmentAccess(EnvironmentAccess.NONE);
         builder.allowExperimentalOptions(false);
         builder.allowHostAccess(HostAccess.EXPLICIT);
